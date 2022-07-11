@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class JSONtoDAT {
-    static File JSONText = new File("spawns.json");
+    static File JSONText;
     static BufferedReader buf;
 
 
@@ -159,15 +159,20 @@ public class JSONtoDAT {
  //       return null;
     }
 
-    public static void main(String args[]) throws IOException {
-        FileReader JSONFileReader = new FileReader(JSONText);
-        buf = new BufferedReader(JSONFileReader);
+    public static void main(String[] args) {
+        try {
+            JSONText = new File(args[0]);
+            FileReader JSONFileReader = new FileReader(JSONText);
+            buf = new BufferedReader(JSONFileReader);
 
-        buf.readLine();
-        CompoundTag rootTag = createCompoundTag("");
+            buf.readLine();
+            CompoundTag rootTag = createCompoundTag("");
 
-        NBTOutputStream nbtOutputStream = new NBTOutputStream(new FileOutputStream("spawns.dat"));
-        nbtOutputStream.writeTag(rootTag);
-        nbtOutputStream.close();
+            NBTOutputStream nbtOutputStream = new NBTOutputStream(new FileOutputStream(args[1]));
+            nbtOutputStream.writeTag(rootTag);
+            nbtOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
